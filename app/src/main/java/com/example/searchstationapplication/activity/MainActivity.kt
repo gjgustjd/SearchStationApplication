@@ -1,8 +1,8 @@
-package com.example.searchstationapplication
+package com.example.searchstationapplication.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.showcurrencyapplication.R
+import com.example.searchstationapplication.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
