@@ -14,4 +14,6 @@ interface LocalStationDAO {
     @Delete
     fun delete(item: SubWayStation)
 
+    @Query("DELETE FROM subway_station")
+    fun deleteAll()
 }

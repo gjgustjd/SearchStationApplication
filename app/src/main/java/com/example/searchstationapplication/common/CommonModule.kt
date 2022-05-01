@@ -33,7 +33,7 @@ class CommonModule {
     @Provides
     @Singleton
     fun getDatabase(@ApplicationContext context: Context): LocalStationDataBase =
-        Room.databaseBuilder(context, LocalStationDataBase::class.java, "user-db")
+        Room.databaseBuilder(context, LocalStationDataBase::class.java, "stations")
             .fallbackToDestructiveMigration().build()
 
 }
