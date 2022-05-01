@@ -19,4 +19,5 @@ class MainRepository @Inject constructor(
 
     suspend fun deleteStationData(item: SubWayStation) = dataBase.localStationDao().delete(item)
     suspend fun deleteAll() = dataBase.localStationDao().deleteAll()
+    fun getSelectedStationsAll()= dataBase.localStationDao().getAllStations()
 }

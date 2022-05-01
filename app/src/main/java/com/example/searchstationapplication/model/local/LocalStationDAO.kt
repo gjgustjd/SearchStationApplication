@@ -2,6 +2,7 @@ package com.example.searchstationapplication.model.local
 
 import androidx.room.*
 import com.example.searchstationapplication.model.dto.SubWayStation
+import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface LocalStationDAO {
@@ -18,5 +19,5 @@ interface LocalStationDAO {
     fun deleteAll()
 
     @Query("SELECT * FROM subway_station")
-    fun getAllStations():List<SubWayStation>
+    fun getAllStations(): StateFlow<List<SubWayStation>>
 }
