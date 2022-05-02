@@ -63,7 +63,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/edt_search_station"
             app:layout_constraintStart_toStartOf="@+id/edt_search_station"
-            app:layout_constraintTop_toBottomOf="@+id/edt_search_station" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_search_station"
+            tools:listitem="@layout/item_search_station" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
