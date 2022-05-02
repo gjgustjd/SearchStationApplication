@@ -18,8 +18,10 @@ class SearchViewModel @Inject constructor(private val repository: MainRepository
     fun setupSearchedData() {
         viewModelScope.launch {
             val response = repository.getSubwayStationData()
-            if (response.isSuccessful)
+            if (response.isSuccessful) {
                 searchDataResponse.value = response.body()
+                searchedStationList.value =searchDataResponse.value!!.subway_stations
+            }
         }
     }
 
