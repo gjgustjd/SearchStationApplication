@@ -1,12 +1,12 @@
 package com.example.searchstationapplication.activity.main
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchstationapplication.model.dto.SubWayStation
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+
 
 object MainBindingAdapter {
 
@@ -18,7 +18,11 @@ object MainBindingAdapter {
         viewModel: MainViewModel?
     ) {
         if (stationList != null && viewModel != null) {
+            val layoutManager = FlexboxLayoutManager(view.context)
+            layoutManager.flexWrap = FlexWrap.WRAP
+
             view.adapter = RecyclerMainStationsListAdapter(stationList, viewModel)
+            view.layoutManager = (layoutManager)
         }
     }
 
