@@ -18,7 +18,7 @@ object SearchBindingAdapter {
         viewModel: SearchViewModel?
     ) {
         if (stationList != null && viewModel != null) {
-            view.adapter = RecyclerStationsListAdapter(stationList, viewModel)
+            view.adapter = RecyclerSearchStationsListAdapter(stationList, viewModel)
         }
     }
 

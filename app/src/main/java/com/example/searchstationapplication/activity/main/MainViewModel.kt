@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.searchstationapplication.model.MainRepository
 import com.example.searchstationapplication.model.dto.SubWayStation
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -27,7 +28,7 @@ class MainViewModel @Inject constructor(private val repository: MainRepository) 
     }
 
     fun deleteStation(station: SubWayStation) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             repository.deleteStationData(station)
         }
     }

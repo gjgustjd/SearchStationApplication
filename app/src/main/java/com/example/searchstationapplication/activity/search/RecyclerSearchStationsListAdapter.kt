@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.searchstationapplication.databinding.ItemSearchStationBinding
 import com.example.searchstationapplication.model.dto.SubWayStation
 
-class RecyclerStationsListAdapter constructor(
+class RecyclerSearchStationsListAdapter constructor(
     private val stationList: List<SubWayStation>,
     private val viewModel: SearchViewModel
 ) :
-    RecyclerView.Adapter<RecyclerStationsListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerSearchStationsListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemSearchStationBinding.inflate(
@@ -37,7 +37,7 @@ class RecyclerStationsListAdapter constructor(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SubWayStation) {
             binding.station = item
-            binding.adapter = this@RecyclerStationsListAdapter
+            binding.adapter = this@RecyclerSearchStationsListAdapter
             binding.viewModel = viewModel
         }
 
