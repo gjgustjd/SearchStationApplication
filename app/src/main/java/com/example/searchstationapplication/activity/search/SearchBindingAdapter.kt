@@ -1,11 +1,13 @@
 package com.example.searchstationapplication.activity.search
 
+import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.searchstationapplication.activity.main.MainActivity
 import com.example.searchstationapplication.model.dto.SubWayStation
 
 object SearchBindingAdapter {
@@ -43,8 +45,9 @@ object SearchBindingAdapter {
     @JvmStatic
     fun saveStation(view: View, item: SubWayStation?, viewModel: SearchViewModel?) {
         if (viewModel != null && item != null) {
-            view.setOnClickListener{
+            view.setOnClickListener {
                 viewModel.saveStation(item)
+                view.context.startActivity(Intent(view.context, MainActivity::class.java))
             }
         }
 

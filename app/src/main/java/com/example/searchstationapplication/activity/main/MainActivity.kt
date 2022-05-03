@@ -1,7 +1,6 @@
 package com.example.searchstationapplication.activity.main
 
 import android.content.Intent
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels

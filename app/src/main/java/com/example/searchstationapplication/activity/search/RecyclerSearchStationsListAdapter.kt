@@ -29,10 +29,6 @@ class RecyclerSearchStationsListAdapter constructor(
         return stationList.size
     }
 
-    fun saveStation(item: SubWayStation) {
-        viewModel.saveStation(item)
-    }
-
     inner class ViewHolder(val binding: ItemSearchStationBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SubWayStation) {

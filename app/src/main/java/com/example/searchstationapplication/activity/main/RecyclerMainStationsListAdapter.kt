@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchstationapplication.databinding.ItemMainStationBinding
-import com.example.searchstationapplication.databinding.ItemSearchStationBinding
 import com.example.searchstationapplication.model.dto.SubWayStation
 
 class RecyclerMainStationsListAdapter constructor(
@@ -36,8 +35,6 @@ class RecyclerMainStationsListAdapter constructor(
             binding.station = item
             binding.viewModel = viewModel
         }
-
-
     }
 
 }
