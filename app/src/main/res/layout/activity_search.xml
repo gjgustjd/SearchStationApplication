@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="activity"
             type="com.example.searchstationapplication.activity.search.SearchActivity" />
+
         <variable
             name="viewModel"
             type="com.example.searchstationapplication.activity.search.SearchViewModel" />
@@ -23,8 +25,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:background="@android:color/transparent"
-            android:src="@android:drawable/btn_dialog"
             android:onClick="@{()->activity.goBack()}"
+            android:src="@android:drawable/btn_dialog"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,6 +44,7 @@
 
         <EditText
             android:id="@+id/edt_search_station"
+            BindViewModel="@{viewModel}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -50,18 +53,18 @@
             android:ems="10"
             android:hint="검색어를 입력하세요."
             android:inputType="textPersonName"
-            BindViewModel="@{viewModel}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_search_title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search_stations"
+            BindSearchStationData="@{viewModel.searchedStationList}"
+            BindViewModel="@{viewModel}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            BindSearchStationData="@{viewModel.searchedStationList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/edt_search_station"
