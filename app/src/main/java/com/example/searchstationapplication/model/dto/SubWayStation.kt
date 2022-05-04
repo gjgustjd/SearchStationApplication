@@ -8,9 +8,8 @@ import com.example.searchstationapplication.model.local.CommonConverter
 @Entity(tableName = "subway_station")
 @TypeConverters(CommonConverter::class)
 data class SubWayStation(
-    val idx: Int,
+    @PrimaryKey val idx: Int,
     val name: String,
     val subway_lines: List<Int>
 ) {
-    @PrimaryKey(autoGenerate = true) var id: Int = 0
 }

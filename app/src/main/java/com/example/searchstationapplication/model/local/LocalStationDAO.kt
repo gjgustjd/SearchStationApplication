@@ -3,11 +3,10 @@ package com.example.searchstationapplication.model.local
 import androidx.room.*
 import com.example.searchstationapplication.model.dto.SubWayStation
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface LocalStationDAO {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: SubWayStation)
 
     @Update
