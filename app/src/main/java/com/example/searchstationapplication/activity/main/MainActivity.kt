@@ -32,5 +32,6 @@ class MainActivity : AppCompatActivity() {
 
     fun goSearchActivity() {
         startActivity(Intent(this, SearchActivity::class.java))
+        finish()
     }
 }

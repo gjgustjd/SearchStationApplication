@@ -36,8 +36,6 @@ class RecyclerSearchStationsListAdapter constructor(
             binding.adapter = this@RecyclerSearchStationsListAdapter
             binding.viewModel = viewModel
         }
-
-
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.searchstationapplication.activity.search
 
+import android.app.Activity
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
@@ -46,8 +47,11 @@ object SearchBindingAdapter {
     fun saveStation(view: View, item: SubWayStation?, viewModel: SearchViewModel?) {
         if (viewModel != null && item != null) {
             view.setOnClickListener {
+                val context = view.context
+
                 viewModel.saveStation(item)
-                view.context.startActivity(Intent(view.context, MainActivity::class.java))
+                context.startActivity(Intent(context, MainActivity::class.java))
+                (context as Activity).finish()
             }
         }
 
