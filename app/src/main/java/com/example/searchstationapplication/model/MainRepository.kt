@@ -14,7 +14,7 @@ class MainRepository @Inject constructor(
 
     suspend fun getSubwayStationData() = api.getSubWayStationData()
 
-    fun putStationData(item: SubWayStation) =
+    suspend fun putStationData(item: SubWayStation) =
         dataBase.localStationDao().insert(item)
 
     suspend fun deleteStationData(item: SubWayStation) = dataBase.localStationDao().delete(item)

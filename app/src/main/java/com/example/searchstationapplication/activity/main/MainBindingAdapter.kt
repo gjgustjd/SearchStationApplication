@@ -23,7 +23,7 @@ object MainBindingAdapter {
 
             if (view.adapter == null) {
                 view.adapter = RecyclerMainStationsListAdapter(stationList, viewModel)
-                view.layoutManager = (layoutManager)
+                view.layoutManager = layoutManager
             } else {
                 val mainAdapter = view.adapter as RecyclerMainStationsListAdapter
                 val isDeleted = mainAdapter.stationList.size > stationList.size

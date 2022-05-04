@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LocalStationDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: SubWayStation)
+    suspend fun insert(item: SubWayStation)
 
     @Update
-    fun update(item: SubWayStation)
+    suspend fun update(item: SubWayStation)
 
     @Delete
-    fun delete(item: SubWayStation)
+    suspend fun delete(item: SubWayStation)
 
     @Query("DELETE FROM subway_station")
     suspend fun deleteAll()

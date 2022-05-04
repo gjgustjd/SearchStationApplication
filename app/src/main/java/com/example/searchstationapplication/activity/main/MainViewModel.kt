@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(private val repository: MainRepository) 
         )
 
     fun deleteAll() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAll()
         }
     }
