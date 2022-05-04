@@ -7,7 +7,7 @@ import com.example.searchstationapplication.databinding.ItemMainStationBinding
 import com.example.searchstationapplication.model.dto.SubWayStation
 
 class RecyclerMainStationsListAdapter constructor(
-    private val stationList: List<SubWayStation>,
+    var stationList: List<SubWayStation>,
     private val viewModel: MainViewModel
 ) :
     RecyclerView.Adapter<RecyclerMainStationsListAdapter.ViewHolder>() {

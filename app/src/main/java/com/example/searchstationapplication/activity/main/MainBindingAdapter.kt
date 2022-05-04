@@ -21,8 +21,38 @@ object MainBindingAdapter {
             val layoutManager = FlexboxLayoutManager(view.context)
             layoutManager.flexWrap = FlexWrap.WRAP
 
-            view.adapter = RecyclerMainStationsListAdapter(stationList, viewModel)
-            view.layoutManager = (layoutManager)
+            if (view.adapter == null) {
+                view.adapter = RecyclerMainStationsListAdapter(stationList, viewModel)
+                view.layoutManager = (layoutManager)
+            } else {
+                val mainAdapter = view.adapter as RecyclerMainStationsListAdapter
+                val isDeleted = mainAdapter.stationList.size > stationList.size
+                val union = (mainAdapter.stationList + stationList).distinct()
+                val intersect = mainAdapter.stationList.intersect(stationList)
+                val changedItems = union - intersect
+                val changedIndexes = changedItems.map { mainAdapter.stationList.indexOf(it) }
+                val firstItem = changedIndexes.first()
+
+                mainAdapter.stationList = stationList
+
+                if (changedIndexes.size > 1) {
+                    if (isDeleted)
+                        mainAdapter.notifyItemRangeRemoved(
+                            firstItem,
+                            changedIndexes.size
+                        )
+                    else
+                        mainAdapter.notifyItemRangeInserted(
+                            firstItem,
+                            changedIndexes.size
+                        )
+                } else {
+                    if (isDeleted)
+                        mainAdapter.notifyItemRemoved(firstItem)
+                    else
+                        mainAdapter.notifyItemInserted(firstItem)
+                }
+            }
         }
     }
 
