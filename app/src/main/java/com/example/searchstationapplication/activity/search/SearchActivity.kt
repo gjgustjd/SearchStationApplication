@@ -32,6 +32,7 @@ class SearchActivity : AppCompatActivity() {
             .setView(progressBar)
             .setTitle("지하철 역 데이터 로딩")
             .setMessage("데이터 로딩 중입니다.")
+            .setCancelable(false)
             .create()
     }
 
