@@ -17,9 +17,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.viewModel = viewModel
-        binding.activity = this
-        binding.lifecycleOwner = this
+        binding.apply {
+            viewModel = this@MainActivity.viewModel
+            activity = this@MainActivity
+            lifecycleOwner = this@MainActivity
+        }
     }
 
     fun finishActivity() {

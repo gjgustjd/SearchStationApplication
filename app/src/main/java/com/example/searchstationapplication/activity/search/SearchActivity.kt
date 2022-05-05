@@ -3,6 +3,7 @@ package com.example.searchstationapplication.activity.search
 import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout.LayoutParams
+import android.widget.LinearLayout.LayoutParams.*
 import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -23,11 +24,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
     private val loadingDialog by lazy {
         val progressBar = ProgressBar(this)
-        val lp = LayoutParams(
-            LayoutParams.WRAP_CONTENT,
-            LayoutParams.WRAP_CONTENT
-        )
-        progressBar.layoutParams = lp
+        progressBar.layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
         AlertDialog.Builder(this)
             .setView(progressBar)
             .setTitle("지하철 역 데이터 로딩")
@@ -39,9 +36,11 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
-        binding.viewModel = viewModel
-        binding.activity = this
-        binding.lifecycleOwner = this
+        binding.apply {
+            viewModel = this@SearchActivity.viewModel
+            activity = this@SearchActivity
+            lifecycleOwner = this@SearchActivity
+        }
     }
 
     fun goBack() {

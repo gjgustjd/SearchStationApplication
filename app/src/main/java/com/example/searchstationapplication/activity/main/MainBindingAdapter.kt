@@ -68,9 +68,8 @@ object MainBindingAdapter {
                 val result = viewModel.deleteAll()
                 launch(Dispatchers.Main) {
                     if (result is ApiResponse.Exception<*>) {
-                        Log.e("deleteStation", result.throwable.stackTraceToString())
-                        Toast.makeText(view.context, "삭제에 실패하였습니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        Log.e("deleteAllStation", result.throwable.stackTraceToString())
+                        Toast.makeText(view.context, "삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

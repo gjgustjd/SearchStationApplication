@@ -32,9 +32,11 @@ class RecyclerSearchStationsListAdapter constructor(
     inner class ViewHolder(val binding: ItemSearchStationBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SubWayStation) {
-            binding.station = item
-            binding.adapter = this@RecyclerSearchStationsListAdapter
-            binding.viewModel = viewModel
+            binding.apply {
+                station = item
+                adapter = this@RecyclerSearchStationsListAdapter
+                viewModel = this@RecyclerSearchStationsListAdapter.viewModel
+            }
         }
     }
 
