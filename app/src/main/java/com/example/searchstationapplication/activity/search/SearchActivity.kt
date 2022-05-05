@@ -20,7 +20,6 @@ class SearchActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.activity = this
         binding.lifecycleOwner = this
-        viewModel.setupSearchedData()
     }
 
     fun goBack()

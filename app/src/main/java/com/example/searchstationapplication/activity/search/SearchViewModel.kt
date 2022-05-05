@@ -1,5 +1,6 @@
 package com.example.searchstationapplication.activity.search
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,19 +16,27 @@ class SearchViewModel @Inject constructor(private val repository: MainRepository
     private lateinit var stationList: List<SubWayStation>
     val searchedStationList = MutableLiveData<List<SubWayStation>>()
 
-    fun setupSearchedData() {
+    init {
+        setupSearchedData()
+    }
+
+    private fun setupSearchedData() {
         viewModelScope.launch {
             val response = repository.getSubwayStationData()
             if (response.isSuccessful) {
                 stationList = response.body()!!.subway_stations
-                searchedStationList.value = stationList
+            } else {
+                Log.e("setupSearchedData", response.errorBody()!!.source().toString())
             }
         }
     }
 
     fun performSearch(text: String) {
         searchedStationList.value =
-            stationList.filter { it.name.contains(text) }
+            if (text.isNullOrBlank())
+                listOf()
+            else
+                stationList.filter { it.name.contains(text) }
     }
 
     fun saveStation(item: SubWayStation) {
