@@ -20,44 +20,42 @@ object MainBindingAdapter {
     @JvmStatic
     fun setupRecyclerSearch(
         view: RecyclerView,
-        stationList: List<SubWayStation>?,
-        viewModel: MainViewModel?
+        stationList: List<SubWayStation>,
+        viewModel: MainViewModel
     ) {
-        if (stationList != null && viewModel != null) {
-            val layoutManager = FlexboxLayoutManager(view.context)
-            layoutManager.flexWrap = FlexWrap.WRAP
+        val layoutManager = FlexboxLayoutManager(view.context)
+        layoutManager.flexWrap = FlexWrap.WRAP
 
-            if (view.adapter == null) {
-                view.adapter = RecyclerMainStationsListAdapter(stationList, viewModel)
-                view.layoutManager = layoutManager
+        if (view.adapter == null) {
+            view.adapter = RecyclerMainStationsListAdapter(stationList, viewModel)
+            view.layoutManager = layoutManager
+        } else {
+            val mainAdapter = view.adapter as RecyclerMainStationsListAdapter
+            val isDeleted = mainAdapter.stationList.size > stationList.size
+            val union = (mainAdapter.stationList + stationList).distinct()
+            val intersect = mainAdapter.stationList.intersect(stationList)
+            val changedItems = union - intersect
+            val changedIndexes = changedItems.map { mainAdapter.stationList.indexOf(it) }
+            val firstItem = changedIndexes.first()
+
+            mainAdapter.stationList = stationList
+
+            if (changedIndexes.size > 1) {
+                if (isDeleted)
+                    mainAdapter.notifyItemRangeRemoved(
+                        firstItem,
+                        changedIndexes.size
+                    )
+                else
+                    mainAdapter.notifyItemRangeInserted(
+                        firstItem,
+                        changedIndexes.size
+                    )
             } else {
-                val mainAdapter = view.adapter as RecyclerMainStationsListAdapter
-                val isDeleted = mainAdapter.stationList.size > stationList.size
-                val union = (mainAdapter.stationList + stationList).distinct()
-                val intersect = mainAdapter.stationList.intersect(stationList)
-                val changedItems = union - intersect
-                val changedIndexes = changedItems.map { mainAdapter.stationList.indexOf(it) }
-                val firstItem = changedIndexes.first()
-
-                mainAdapter.stationList = stationList
-
-                if (changedIndexes.size > 1) {
-                    if (isDeleted)
-                        mainAdapter.notifyItemRangeRemoved(
-                            firstItem,
-                            changedIndexes.size
-                        )
-                    else
-                        mainAdapter.notifyItemRangeInserted(
-                            firstItem,
-                            changedIndexes.size
-                        )
-                } else {
-                    if (isDeleted)
-                        mainAdapter.notifyItemRemoved(firstItem)
-                    else
-                        mainAdapter.notifyItemInserted(firstItem)
-                }
+                if (isDeleted)
+                    mainAdapter.notifyItemRemoved(firstItem)
+                else
+                    mainAdapter.notifyItemInserted(firstItem)
             }
         }
     }
@@ -65,37 +63,34 @@ object MainBindingAdapter {
     @BindingAdapter("deleteAllViewModel")
     @JvmStatic
     fun deleteAllStation(view: View, viewModel: MainViewModel) {
-            view.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val result = viewModel.deleteAll()
-                    launch(Dispatchers.Main) {
-                        if (result is ApiResponse.Exception<*>) {
-                            Log.e("deleteStation", result.throwable.stackTraceToString())
-                            Toast.makeText(view.context, "삭제에 실패하였습니다.", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                }
-            }
-    }
-
-    @BindingAdapter("BindSubWayStation", "BindViewModel")
-    @JvmStatic
-    fun deleteStation(view: View, item: SubWayStation?, viewModel: MainViewModel?) {
-        if (viewModel != null && item != null) {
-            view.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val result = viewModel.deleteStation(item)
-                    launch(Dispatchers.Main) {
-                        if (result is ApiResponse.Exception<*>) {
-                            Log.e("deleteStation", result.throwable.stackTraceToString())
-                            Toast.makeText(view.context, "삭제에 실패하였습니다.", Toast.LENGTH_SHORT)
-                                .show()
-                        }
+        view.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val result = viewModel.deleteAll()
+                launch(Dispatchers.Main) {
+                    if (result is ApiResponse.Exception<*>) {
+                        Log.e("deleteStation", result.throwable.stackTraceToString())
+                        Toast.makeText(view.context, "삭제에 실패하였습니다.", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
         }
+    }
 
+    @BindingAdapter("BindSubWayStation", "BindViewModel")
+    @JvmStatic
+    fun deleteStation(view: View, item: SubWayStation, viewModel: MainViewModel) {
+        view.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val result = viewModel.deleteStation(item)
+                launch(Dispatchers.Main) {
+                    if (result is ApiResponse.Exception<*>) {
+                        Log.e("deleteStation", result.throwable.stackTraceToString())
+                        Toast.makeText(view.context, "삭제에 실패하였습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+        }
     }
 }
