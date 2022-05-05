@@ -14,6 +14,7 @@ import com.example.searchstationapplication.model.dto.ApiResponse.*
 import com.example.searchstationapplication.activity.main.MainActivity
 import com.example.searchstationapplication.model.dto.ApiResponse
 import com.example.searchstationapplication.model.dto.SubWayStation
+import java.net.SocketTimeoutException
 
 object SearchBindingAdapter {
 
@@ -42,8 +43,15 @@ object SearchBindingAdapter {
                             RecyclerSearchStationsListAdapter(stationList.data, viewModel)
                     is Failure ->
                         onFail("데이터 수신에 실패했습니다.", stationList.message)
-                    is Exception ->
-                        onFail("오류가 발생했습니다.", stationList.throwable.stackTraceToString())
+                    is Exception -> {
+                        val errorMessage =
+                            if (stationList.throwable is SocketTimeoutException)
+                                "데이터 요청에 실패했습니다."
+                            else
+                                "오류가 발생했습니다."
+
+                        onFail(errorMessage, stationList.throwable.stackTraceToString())
+                    }
                 }
             }
         }

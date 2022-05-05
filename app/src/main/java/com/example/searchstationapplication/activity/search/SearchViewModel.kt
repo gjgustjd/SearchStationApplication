@@ -25,9 +25,9 @@ class SearchViewModel @Inject constructor(private val repository: MainRepository
 
     private fun setupSearchedData() {
         viewModelScope.launch {
-            val response = repository.getSubwayStationData()
             searchedStationList.value =
                 try {
+                    val response = repository.getSubwayStationData()
                     if (response.isSuccessful) {
                         allStationList = response.body()!!.subway_stations
                         Success(listOf())
