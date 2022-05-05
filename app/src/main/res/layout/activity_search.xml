@@ -59,9 +59,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search_stations"
+            BindActivity="@{activity}"
             BindSearchStationData="@{viewModel.searchedStationList}"
             BindViewModel="@{viewModel}"
-            BindActivity="@{activity}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
