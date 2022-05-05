@@ -44,24 +44,24 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_main_delete_all"
+            deleteAllViewModel="@{viewModel}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:onClick="@{()->viewModel.deleteAll()}"
             android:text="전체삭제"
             app:layout_constraintEnd_toEndOf="@+id/btn_main_search"
             app:layout_constraintTop_toBottomOf="@+id/btn_main_search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_main_stations"
+            BindMainStationData="@{viewModel.selectedStations}"
+            BindViewModel="@{viewModel}"
             android:layout_width="0dp"
-            android:layout_height="529dp"
+            android:layout_height="0dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            BindMainStationData="@{viewModel.selectedStations}"
-            BindViewModel="@{viewModel}"
             app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

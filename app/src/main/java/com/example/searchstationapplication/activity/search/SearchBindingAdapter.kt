@@ -14,6 +14,9 @@ import com.example.searchstationapplication.model.dto.ApiResponse.*
 import com.example.searchstationapplication.activity.main.MainActivity
 import com.example.searchstationapplication.model.dto.ApiResponse
 import com.example.searchstationapplication.model.dto.SubWayStation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
 
 object SearchBindingAdapter {
@@ -40,7 +43,7 @@ object SearchBindingAdapter {
                 when (stationList) {
                     is Success ->
                         view.adapter =
-                            RecyclerSearchStationsListAdapter(stationList.data, viewModel)
+                            RecyclerSearchStationsListAdapter(stationList.data!!, viewModel)
                     is Failure ->
                         onFail("데이터 수신에 실패했습니다.", stationList.message)
                     is Exception -> {
@@ -68,7 +71,7 @@ object SearchBindingAdapter {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                viewModel.performSearch(s.toString())
+                viewModel.doSearch(s.toString())
             }
 
         })
@@ -81,11 +84,25 @@ object SearchBindingAdapter {
             view.setOnClickListener {
                 val baseActivity = view.context as Activity
 
-                viewModel.saveStation(item)
-                baseActivity.startActivity(Intent(baseActivity, MainActivity::class.java))
-                baseActivity.finish()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val result = viewModel.saveStation(item)
+                    launch(Dispatchers.Main) {
+                        if (result is Success<*>) {
+                            baseActivity.startActivity(
+                                Intent(
+                                    baseActivity,
+                                    MainActivity::class.java
+                                )
+                            )
+                            baseActivity.finish()
+                        } else {
+                            val error = result as Exception<*>
+                            Log.e("saveStation", error.throwable.stackTraceToString())
+                            Toast.makeText(baseActivity, "저장에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
         }
-
     }
 }

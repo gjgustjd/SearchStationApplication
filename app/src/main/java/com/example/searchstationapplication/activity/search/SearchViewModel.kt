@@ -1,6 +1,5 @@
 package com.example.searchstationapplication.activity.search
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +10,7 @@ import com.example.searchstationapplication.model.dto.SubWayStation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.Exception
 
@@ -40,7 +40,7 @@ class SearchViewModel @Inject constructor(private val repository: MainRepository
         }
     }
 
-    fun performSearch(text: String) {
+    fun doSearch(text: String) {
         searchedStationList.value = Success(
             if (text.isNullOrBlank())
                 listOf()
@@ -48,9 +48,13 @@ class SearchViewModel @Inject constructor(private val repository: MainRepository
                 allStationList!!.filter { it.name.contains(text) })
     }
 
-    fun saveStation(item: SubWayStation) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.putStationData(item)
+    suspend fun saveStation(item: SubWayStation) =
+        withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            try {
+                repository.putStationData(item)
+                Success<Nothing>()
+            } catch (e: Exception) {
+                Exception(e)
+            }
         }
-    }
 }
