@@ -8,10 +8,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.example.searchstationapplication.R
 import com.example.searchstationapplication.activity.main.MainActivity
 import com.example.searchstationapplication.databinding.ActivitySearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
@@ -48,8 +52,14 @@ class SearchActivity : AppCompatActivity() {
         loadingDialog.show()
     }
 
-    fun dismissLoadingDialog()
-    {
-        loadingDialog.dismiss()
+    fun dismissLoadingDialog() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            delay(1000)
+
+            launch(Dispatchers.Main)
+            {
+                loadingDialog.dismiss()
+            }
+        }
     }
 }
