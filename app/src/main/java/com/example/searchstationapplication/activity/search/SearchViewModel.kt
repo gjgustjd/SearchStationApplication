@@ -13,8 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val repository: MainRepository) : ViewModel() {
-    private lateinit var stationList: List<SubWayStation>
-    val searchedStationList = MutableLiveData<List<SubWayStation>>()
+    var allStationList: List<SubWayStation>? = null
+    val searchedStationList = MutableLiveData<List<SubWayStation>>(null)
 
     init {
         setupSearchedData()
@@ -24,7 +24,8 @@ class SearchViewModel @Inject constructor(private val repository: MainRepository
         viewModelScope.launch {
             val response = repository.getSubwayStationData()
             if (response.isSuccessful) {
-                stationList = response.body()!!.subway_stations
+                allStationList = response.body()!!.subway_stations
+                searchedStationList.value = listOf()
             } else {
                 Log.e("setupSearchedData", response.errorBody()!!.source().toString())
             }
@@ -36,7 +37,7 @@ class SearchViewModel @Inject constructor(private val repository: MainRepository
             if (text.isNullOrBlank())
                 listOf()
             else
-                stationList.filter { it.name.contains(text) }
+                allStationList!!.filter { it.name.contains(text) }
     }
 
     fun saveStation(item: SubWayStation) {

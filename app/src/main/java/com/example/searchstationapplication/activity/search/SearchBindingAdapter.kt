@@ -13,15 +13,21 @@ import com.example.searchstationapplication.model.dto.SubWayStation
 
 object SearchBindingAdapter {
 
-    @BindingAdapter("BindSearchStationData", "BindViewModel")
+    @BindingAdapter("BindSearchStationData", "BindViewModel", "BindActivity")
     @JvmStatic
     fun setupRecyclerSearch(
         view: RecyclerView,
         stationList: List<SubWayStation>?,
-        viewModel: SearchViewModel?
+        viewModel: SearchViewModel?,
+        activity: SearchActivity?
     ) {
-        if (stationList != null && viewModel != null) {
-            view.adapter = RecyclerSearchStationsListAdapter(stationList, viewModel)
+        if (stationList == null)
+            activity!!.showLoadingDialog()
+        else {
+            if (viewModel != null) {
+                activity!!.dismissLoadingDialog()
+                view.adapter = RecyclerSearchStationsListAdapter(stationList!!, viewModel)
+            }
         }
     }
 
@@ -47,11 +53,11 @@ object SearchBindingAdapter {
     fun saveStation(view: View, item: SubWayStation?, viewModel: SearchViewModel?) {
         if (viewModel != null && item != null) {
             view.setOnClickListener {
-                val context = view.context
+                val baseActivity = view.context as Activity
 
                 viewModel.saveStation(item)
-                context.startActivity(Intent(context, MainActivity::class.java))
-                (context as Activity).finish()
+                baseActivity.startActivity(Intent(baseActivity, MainActivity::class.java))
+                baseActivity.finish()
             }
         }
 
