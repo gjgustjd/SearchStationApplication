@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -60,7 +61,7 @@ object SearchBindingAdapter {
 
     @BindingAdapter("BindViewModel")
     @JvmStatic
-    fun watchEditText(editText: EditText, viewModel: SearchViewModel) {
+    fun watchEditText(editText: EditText, viewModel: SearchViewModel){
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -68,6 +69,21 @@ object SearchBindingAdapter {
                 viewModel.doSearch(s.toString())
             }
         })
+    }
+
+
+    @BindingAdapter("BindListData")
+    @JvmStatic
+    fun showEmptyText(view: TextView, stationList: ApiResponse<List<SubWayStation>>?) {
+        if (stationList is Success) {
+            if (stationList.data!!.size == 0) {
+                view.visibility = View.VISIBLE
+            } else {
+                view.visibility = View.GONE
+            }
+        } else {
+            view.visibility = View.VISIBLE
+        }
     }
 
     @BindingAdapter("BindSubWayStation", "BindViewModel")
