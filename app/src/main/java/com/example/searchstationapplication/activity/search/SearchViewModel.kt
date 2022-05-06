@@ -3,6 +3,7 @@ package com.example.searchstationapplication.activity.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.searchstationapplication.common.SoundSearcher
 import com.example.searchstationapplication.model.MainRepository
 import com.example.searchstationapplication.model.dto.ApiResponse
 import com.example.searchstationapplication.model.dto.ApiResponse.*
@@ -45,7 +46,8 @@ class SearchViewModel @Inject constructor(private val repository: MainRepository
             if (text.isNullOrBlank())
                 listOf()
             else
-                allStationList!!.filter { it.name.contains(text) })
+                allStationList!!.filter {
+                    SoundSearcher.matchString(it.name,text) })
     }
 
     suspend fun saveStation(item: SubWayStation) =
